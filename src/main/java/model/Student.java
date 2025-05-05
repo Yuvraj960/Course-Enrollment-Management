@@ -17,7 +17,6 @@ public class Student implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    // Getters and setters
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
     public String getFirstName() { return firstName; }

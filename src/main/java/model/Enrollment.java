@@ -16,7 +16,6 @@ public class Enrollment implements Serializable {
         this.enrollmentDate = enrollmentDate;
     }
 
-    // Getters and setters
     public String getEnrollmentId() { return enrollmentId; }
     public void setEnrollmentId(String enrollmentId) { this.enrollmentId = enrollmentId; }
     public String getStudentId() { return studentId; }

@@ -1,11 +1,16 @@
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import model.Course;
 import model.Enrollment;
 import model.Student;
 import service.CourseService;
 import service.EnrollmentService;
 import service.StudentService;
+import util.DateUtil;
+import util.TableDisplayer;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
@@ -152,21 +157,49 @@ public class Main {
     }
 
     private static void viewAllStudents() {
-        System.out.println("\n===== All Students =====");
+        // CLI Version
+        // System.out.println("\n===== All Students =====");
+        // List<Student> students = studentService.getAllStudents();
+
+        // if (students.isEmpty()) {
+        //     System.out.println("No students found.");
+        //     return;
+        // }
+
+        // System.out.print("Sort by (id/firstname/lastname): ");
+        // String sortBy = scanner.nextLine().toLowerCase();
+        // studentService.sortStudents(students, sortBy);
+
+        // displayStudentHeader();
+        // for (Student student : students) {
+        //     System.out.println(student);
+        // }
+
+
+        // GUI Version
         List<Student> students = studentService.getAllStudents();
-
-        if (students.isEmpty()) {
-            System.out.println("No students found.");
-            return;
-        }
-
-        System.out.print("Sort by (id/firstname/lastname): ");
-        String sortBy = scanner.nextLine().toLowerCase();
-        studentService.sortStudents(students, sortBy);
-
-        displayStudentHeader();
-        for (Student student : students) {
-            System.out.println(student);
+        
+        String[] sortOptions = {"ID", "First Name", "Last Name"};
+        String sortBy = TableDisplayer.showSortDialog(sortOptions);
+    
+        if(sortBy != null) {
+            studentService.sortStudents(students, sortBy.toLowerCase().replace(" ", ""));
+            
+            String[] columns = {"Student ID", "First Name", "Last Name", "Email", "Phone"};
+            String[][] data = new String[students.size()][5];
+            
+            for(int i=0; i<students.size(); i++) {
+                Student s = students.get(i);
+                data[i][0] = s.getStudentId();
+                data[i][1] = s.getFirstName();
+                data[i][2] = s.getLastName();
+                data[i][3] = s.getEmail();
+                data[i][4] = s.getPhoneNumber();
+            }
+            
+            SwingUtilities.invokeLater(() -> 
+                TableDisplayer.display("Student Records - Sorted by" + sortBy, columns, data)
+            );
         }
     }
 
@@ -291,21 +324,48 @@ public class Main {
     }
 
     private static void viewAllCourses() {
-        System.out.println("\n===== All Courses =====");
+        // CLI Version
+        // System.out.println("\n===== All Courses =====");
+        // List<Course> courses = courseService.getAllCourses();
+
+        // if (courses.isEmpty()) {
+        //     System.out.println("No courses found.");
+        //     return;
+        // }
+
+        // System.out.print("Sort by (code/name/credits): ");
+        // String sortBy = scanner.nextLine().toLowerCase();
+        // courseService.sortCourses(courses, sortBy);
+
+        // displayCourseHeader();
+        // for (Course course : courses) {
+        //     System.out.println(course);
+        // }
+
+
+        // GUI Version
         List<Course> courses = courseService.getAllCourses();
+        
+        String[] sortOptions = {"Code", "Name", "Credits"};
+        String sortBy = TableDisplayer.showSortDialog(sortOptions);
 
-        if (courses.isEmpty()) {
-            System.out.println("No courses found.");
-            return;
-        }
-
-        System.out.print("Sort by (code/name/credits): ");
-        String sortBy = scanner.nextLine().toLowerCase();
-        courseService.sortCourses(courses, sortBy);
-
-        displayCourseHeader();
-        for (Course course : courses) {
-            System.out.println(course);
+        if(sortBy != null) {
+            courseService.sortCourses(courses, sortBy.toLowerCase().replace(" ", ""));    
+    
+            String[] columns = {"Course Code", "Course Name", "Credits", "Instructor"};
+            String[][] data = new String[courses.size()][4];
+            
+            for(int i=0; i<courses.size(); i++) {
+                Course c = courses.get(i);
+                data[i][0] = c.getCourseCode();
+                data[i][1] = c.getCourseName();
+                data[i][2] = String.valueOf(c.getCredits());
+                data[i][3] = c.getInstructor();
+            }
+            
+            SwingUtilities.invokeLater(() -> 
+                TableDisplayer.display("Course Catalog - Sorted by" + sortBy, columns, data)
+            );
         }
     }
 
@@ -403,76 +463,227 @@ public class Main {
     }
 
     private static void viewAllEnrollments() {
-        System.out.println("\n===== All Enrollments =====");
+        // CLI Version
+        // System.out.println("\n===== All Enrollments =====");
+        // List<Enrollment> enrollments = enrollmentService.getAllEnrollments();
+
+        // if (enrollments.isEmpty()) {
+        //     System.out.println("No enrollments found.");
+        //     return;
+        // }
+
+        // System.out.print("Sort by (id/student/course/date): ");
+        // String sortBy = scanner.nextLine().toLowerCase();
+        // enrollmentService.sortEnrollments(enrollments, sortBy);
+
+        // displayEnrollmentHeader();
+        // for (Enrollment enrollment : enrollments) {
+        //     System.out.println(enrollment);
+        // }
+
+        // GUI Version
         List<Enrollment> enrollments = enrollmentService.getAllEnrollments();
-
-        if (enrollments.isEmpty()) {
-            System.out.println("No enrollments found.");
-            return;
-        }
-
-        System.out.print("Sort by (id/student/course/date): ");
-        String sortBy = scanner.nextLine().toLowerCase();
-        enrollmentService.sortEnrollments(enrollments, sortBy);
-
-        displayEnrollmentHeader();
-        for (Enrollment enrollment : enrollments) {
-            System.out.println(enrollment);
+    
+        String[] sortOptions = {"ID", "Student", "Course", "Date"};
+        String sortBy = TableDisplayer.showSortDialog(sortOptions);
+        
+        if(sortBy != null) {
+            enrollmentService.sortEnrollments(enrollments, sortBy.toLowerCase().replace(" ", ""));
+            
+            String[] columns = {"Enrollment ID", "Student ID", "Course Code", "Enrollment Date"};
+            String[][] data = new String[enrollments.size()][4];
+            
+            for(int i=0; i<enrollments.size(); i++) {
+                Enrollment e = enrollments.get(i);
+                data[i][0] = e.getEnrollmentId();
+                data[i][1] = e.getStudentId();
+                data[i][2] = e.getCourseCode();
+                data[i][3] = DateUtil.formatDate(e.getEnrollmentDate());
+            }
+            
+            SwingUtilities.invokeLater(() -> 
+                TableDisplayer.display("All Enrollments - Sorted by " + sortBy, columns, data)
+            );
         }
     }
 
     private static void viewEnrollmentsByStudent() {
-        System.out.println("\n===== Enrollments by Student =====");
-        System.out.print("Enter Student ID: ");
-        String studentId = scanner.nextLine();
+        // CLI Version
+        // System.out.println("\n===== Enrollments by Student =====");
+        // System.out.print("Enter Student ID: ");
+        // String studentId = scanner.nextLine();
 
-        if (studentService.getStudent(studentId) == null) {
-            System.out.println("Student not found with ID: " + studentId);
-            return;
-        }
+        // if (studentService.getStudent(studentId) == null) {
+        //     System.out.println("Student not found with ID: " + studentId);
+        //     return;
+        // }
+
+        // List<Enrollment> enrollments = enrollmentService.getEnrollmentsByStudent(studentId);
+
+        // if (enrollments.isEmpty()) {
+        //     System.out.println("No enrollments found for this student.");
+        //     return;
+        // }
+
+        // System.out.println("\nEnrollments for Student ID: " + studentId);
+        // displayEnrollmentHeader();
+        // for (Enrollment enrollment : enrollments) {
+        //     System.out.println(enrollment);
+        // }
+
+
+        // GUI Version
+        String studentId = JOptionPane.showInputDialog(
+            null, 
+            "Enter Student ID:", 
+            "View Enrollments by Student", 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (studentId == null || studentId.trim().isEmpty()) return;
 
         List<Enrollment> enrollments = enrollmentService.getEnrollmentsByStudent(studentId);
-
+        
         if (enrollments.isEmpty()) {
-            System.out.println("No enrollments found for this student.");
+            JOptionPane.showMessageDialog(
+                null, 
+                "No enrollments found for Student ID: " + studentId, 
+                "No Data", 
+                JOptionPane.INFORMATION_MESSAGE
+            );
             return;
         }
 
-        System.out.println("\nEnrollments for Student ID: " + studentId);
-        displayEnrollmentHeader();
-        for (Enrollment enrollment : enrollments) {
-            System.out.println(enrollment);
+        String[] sortOptions = {"Enrollment Date (Newest)", "Enrollment Date (Oldest)", "Course Code"};
+        String sortBy = TableDisplayer.showSortDialog(sortOptions);
+
+        if (sortBy != null) {
+            String sortCriteria = switch (sortBy) {
+                case "Enrollment Date (Newest)" -> "date";
+                case "Enrollment Date (Oldest)" -> "date";
+                case "Course Code" -> "course";
+                default -> "date";
+            };
+
+            enrollmentService.sortEnrollments(enrollments, sortCriteria);
+            
+            if (sortBy.equals("Enrollment Date (Newest)")) {
+                Collections.reverse(enrollments);
+            }
+
+            String[] columns = {"Course Code", "Course Name", "Enrollment Date"};
+            String[][] data = new String[enrollments.size()][3];
+            
+            for (int i = 0; i < enrollments.size(); i++) {
+                Enrollment e = enrollments.get(i);
+                Course course = courseService.getCourse(e.getCourseCode());
+                
+                data[i][0] = e.getCourseCode();
+                data[i][1] = (course != null) ? course.getCourseName() : "N/A";
+                data[i][2] = DateUtil.formatDate(e.getEnrollmentDate());
+            }
+
+            SwingUtilities.invokeLater(() -> 
+                TableDisplayer.display(
+                    "Enrollments for Student: " + studentId,
+                    columns,
+                    data
+                )
+            );
         }
     }
 
     private static void viewEnrollmentsByCourse() {
-        System.out.println("\n===== Enrollments by Course =====");
-        System.out.print("Enter Course Code: ");
-        String courseCode = scanner.nextLine();
+        // CLI Version
+        // System.out.println("\n===== Enrollments by Course =====");
+        // System.out.print("Enter Course Code: ");
+        // String courseCode = scanner.nextLine();
 
-        if (courseService.getCourse(courseCode) == null) {
-            System.out.println("Course not found with code: " + courseCode);
-            return;
-        }
+        // if (courseService.getCourse(courseCode) == null) {
+        //     System.out.println("Course not found with code: " + courseCode);
+        //     return;
+        // }
+
+        // List<Enrollment> enrollments = enrollmentService.getEnrollmentsByCourse(courseCode);
+
+        // if (enrollments.isEmpty()) {
+        //     System.out.println("No enrollments found for this course.");
+        //     return;
+        // }
+
+        // System.out.println("\nEnrollments for Course Code: " + courseCode);
+        // displayEnrollmentHeader();
+        // for (Enrollment enrollment : enrollments) {
+        //     System.out.println(enrollment);
+        // }
+
+        // GUI Version
+        String courseCode = JOptionPane.showInputDialog(
+            null, 
+            "Enter Course Code:", 
+            "View Enrollments by Course", 
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (courseCode == null || courseCode.trim().isEmpty()) return;
 
         List<Enrollment> enrollments = enrollmentService.getEnrollmentsByCourse(courseCode);
-
+        
         if (enrollments.isEmpty()) {
-            System.out.println("No enrollments found for this course.");
+            JOptionPane.showMessageDialog(
+                null, 
+                "No enrollments found for Course: " + courseCode, 
+                "No Data", 
+                JOptionPane.INFORMATION_MESSAGE
+            );
             return;
         }
 
-        System.out.println("\nEnrollments for Course Code: " + courseCode);
-        displayEnrollmentHeader();
-        for (Enrollment enrollment : enrollments) {
-            System.out.println(enrollment);
+        String[] sortOptions = {"Enrollment Date (Newest)", "Enrollment Date (Oldest)", "Student Name"};
+        String sortBy = TableDisplayer.showSortDialog(sortOptions);
+
+        if (sortBy != null) {
+            String sortCriteria = switch (sortBy) {
+                case "Enrollment Date (Newest)" -> "date";
+                case "Enrollment Date (Oldest)" -> "date";
+                case "Student Name" -> "student";
+                default -> "date";
+            };
+
+            enrollmentService.sortEnrollments(enrollments, sortCriteria);
+            
+            if (sortBy.equals("Enrollment Date (Newest)")) {
+                Collections.reverse(enrollments);
+            }
+
+            String[] columns = {"Student ID", "Student Name", "Enrollment Date"};
+            String[][] data = new String[enrollments.size()][3];
+            
+            for (int i = 0; i < enrollments.size(); i++) {
+                Enrollment e = enrollments.get(i);
+                Student student = studentService.getStudent(e.getStudentId());
+                
+                data[i][0] = e.getStudentId();
+                data[i][1] = (student != null) ? 
+                    student.getFirstName() + " " + student.getLastName() : "N/A";
+                data[i][2] = DateUtil.formatDate(e.getEnrollmentDate());
+            }
+
+            SwingUtilities.invokeLater(() -> 
+                TableDisplayer.display(
+                    "Enrollments for Course: " + courseCode,
+                    columns,
+                    data
+                )
+            );
         }
     }
 
-    private static void displayEnrollmentHeader() {
-        System.out.printf("%-15s %-10s %-10s %-20s%n",
-                "Enrollment ID", "Student", "Course", "Enrollment Date");
-    }
+    // For CLI version, uncomment the following method
+    // private static void displayEnrollmentHeader() {
+    //     System.out.printf("%-15s %-10s %-10s %-20s%n",
+    //             "Enrollment ID", "Student", "Course", "Enrollment Date");
+    // }
 
     private static int getIntInput(int min, int max) {
         while (true) {

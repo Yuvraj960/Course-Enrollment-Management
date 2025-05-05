@@ -9,12 +9,10 @@ import model.Enrollment;
 import model.Student;
 
 public class FileUtil {
-    // Generic method to save any list to CSV
     public static <T> void saveData(String fileName, List<T> data) {
         if (data == null || data.isEmpty()) return;
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
-            // Write header based on type
             if (data.get(0) instanceof Student) {
                 writer.println("studentId,firstName,lastName,email,phoneNumber");
                 for (T item : data) {
@@ -52,7 +50,6 @@ public class FileUtil {
         }
     }
 
-    // Generic method to load data from CSV
     @SuppressWarnings("unchecked")
     public static <T> List<T> loadData(String fileName) {
         List<T> data = new ArrayList<>();
@@ -63,7 +60,7 @@ public class FileUtil {
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line = reader.readLine(); // Skip header
+            String line = reader.readLine();
             if (line == null) return data;
 
             while ((line = reader.readLine()) != null) {
@@ -100,13 +97,11 @@ public class FileUtil {
         return data;
     }
 
-    // Helper method to escape CSV special characters
     private static String escapeCsv(String input) {
         if (input == null) return "";
         return "\"" + input.replace("\"", "\"\"") + "\"";
     }
 
-    // Helper method to unescape CSV values
     private static String unescapeCsv(String input) {
         if (input == null || input.isEmpty()) return "";
         if (input.startsWith("\"") && input.endsWith("\"")) {
@@ -115,7 +110,6 @@ public class FileUtil {
         return input;
     }
 
-    // Helper method to parse CSV line considering quoted values
     private static String[] parseCsvLine(String line) {
         List<String> values = new ArrayList<>();
         boolean inQuotes = false;

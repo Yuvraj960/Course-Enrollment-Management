@@ -1,2 +1,5 @@
 courseCode,courseName,credits,instructor
 "123","DSA",4,"Rajendra"
+"200","BEE",2,"Nitish Rajput"
+"201","OOSE",4,"Susama Baghchi"
+"202","DSA",6,"Aakash"
