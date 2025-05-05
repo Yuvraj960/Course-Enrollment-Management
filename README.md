@@ -6,7 +6,7 @@
 A comprehensive command-line Student-Course Management System built with Java that handles student records, course management, and enrollment tracking with persistent CSV storage.
 
 ## Table of Contents
-- [Student Management System](#student-management-system)
+- [Course Enrollment Management](#course-enrollment-management)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
     - [Core Functionality](#core-functionality)
@@ -75,7 +75,7 @@ A comprehensive command-line Student-Course Management System built with Java th
    cd Course-Enrollment-Management
    ```
 
-3. Compile the project:
+3. Compile the project (Must open Git Bash Type terminal in vscode to run this command):  
    ```bash
    javac -d bin src/main/java/**/*.java src/main/java/Main.java
    ```
