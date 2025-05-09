@@ -20,12 +20,30 @@ public class StudentService {
     }
 
     public void addStudent(Student student) {
-        if (InputValidator.validateStudent(student)) {
-            students.put(student.getStudentId(), student);
-            saveStudents();
-            System.out.println("Student added successfully.");
-        } else {
-            System.out.println("Invalid student data. Please check all fields.");
+        switch (InputValidator.validateStudent(student)) {
+            case 1:
+                System.out.println("Invalid student data. Please check all fields.");
+                break;
+            case 2:
+                System.out.println("Invalid student ID or first name.");
+                break;
+            case 3:
+                System.out.println("Invalid first name or last name.");
+                break;
+            case 4:
+                System.out.println("Invalid last name.");
+                break;
+            case 5:
+                System.out.println("Invalid email.");
+                break;
+            case 6:
+                System.out.println("Invalid phone number.");
+                break;
+            default:
+                students.put(student.getStudentId(), student);
+                saveStudents();
+                System.out.println("Student added successfully.");
+                break;
         }
     }
 
