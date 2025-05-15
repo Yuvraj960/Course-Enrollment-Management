@@ -1,0 +1,2 @@
+enrollmentId,studentId,courseCode,enrollmentDate
+"100-CS200","100","CS200",1747052893060

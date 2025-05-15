@@ -1,0 +1,2 @@
+courseCode,courseName,credits,instructor
+"CS200","DSA",4,"Sharukh Khan"

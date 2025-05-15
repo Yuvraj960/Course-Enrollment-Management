@@ -1,0 +1,4 @@
+studentId,firstName,lastName,email,phoneNumber
+"100","Vedant","Sareen","vedant100@gmail.com","9876543210"
+"101","Amitabh","Bachan","amitabh101@gmail.com","1111111111"
+"102","Karan","Johar","karan102@gmail.com","4444444444"
