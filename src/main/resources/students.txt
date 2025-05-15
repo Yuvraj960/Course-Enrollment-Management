@@ -1,4 +1,0 @@
-studentId,firstName,lastName,email,phoneNumber
-"100","Krati","Arora","krati@gmail.com","1234567890"
-"101","Prachi","Singla","prachi@gmail.com","9876543210"
-"103","Yuvraj","Gupta","yuvraj@hotmail.com","6789012345"
